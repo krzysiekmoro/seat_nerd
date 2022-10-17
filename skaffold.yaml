@@ -5,12 +5,12 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  # local:
-  #   push: false
-  googleCloudBuild:
-    projectId: seat-nerd
+  local:
+    push: false
+  # googleCloudBuild:
+  #   projectId: seat-nerd
   artifacts:
-    - image: us.gcr.io/seat-nerd/auth
+    - image: krzysztofmorawski/auth
       context: auth
       docker:
         dockerfile: Dockerfile
