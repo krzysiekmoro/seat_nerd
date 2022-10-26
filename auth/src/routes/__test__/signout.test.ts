@@ -10,14 +10,6 @@ it("clears the cookie after signing out", async () => {
     })
     .expect(201);
 
-  //   await request(app)
-  //     .post("/api/users/signin")
-  //     .send({
-  //       email: "krzysztof@morawski.com",
-  //       password: "password123",
-  //     })
-  //     .expect(201);
-
   const response = await request(app)
     .post("/api/users/signout")
     .send({})
