@@ -2,8 +2,9 @@ import express from "express";
 import "express-async-errors";
 import { json } from "body-parser";
 
-import { errorHandler, NotFoundError } from "@seat-nerd/common";
+import { errorHandler, NotFoundError, currentUser } from "@seat-nerd/common";
 import cookieSession from "cookie-session";
+import { createTicketRouter } from "./routes/new";
 
 const app = express();
 app.set("trust proxy", true);
@@ -14,6 +15,9 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
+app.use(currentUser);
+
+app.use(createTicketRouter);
 
 // Catch errors if route does not exists
 app.all("*", async (req, res, next) => {
