@@ -19,7 +19,7 @@ it("returns anything else but 401 if user is logged in", async () => {
     .post("/api/orders")
     .set("Cookie", signup())
     .send({});
-  expect(response.status).not.toEqual(404);
+  expect(response.status).not.toEqual(401);
 });
 
 it("return an error if the ticket does not exist", async () => {

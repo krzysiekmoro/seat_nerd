@@ -18,7 +18,7 @@ it("returns anything else but 401 if user is logged in", async () => {
     .post("/api/tickets")
     .set("Cookie", signup())
     .send({});
-  expect(response.status).not.toEqual(404);
+  expect(response.status).not.toEqual(401);
 });
 
 it("returns an error if invalid title is provided", async () => {
