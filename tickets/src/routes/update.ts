@@ -30,9 +30,6 @@ router.put(
       throw new NotFoundError();
     }
 
-    console.log(ticket.userId);
-    console.log(req.currentUser!.id);
-
     if (ticket.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
