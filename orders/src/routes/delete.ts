@@ -9,6 +9,9 @@ import {
 import { param } from "express-validator";
 import mongoose from "mongoose";
 import { Order } from "../models/order";
+import { OrderCanceledPublisher } from "../events/order-canceled-publisher";
+import { natsWrapper } from "../nats-wrapper";
+import { Ticket } from "../models/ticket";
 
 const router = express.Router();
 
@@ -22,7 +25,7 @@ router.delete(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const order = await Order.findById(req.params.orderId);
+    const order = await Order.findById(req.params.orderId).populate("ticket");
 
     if (!order) {
       throw new NotFoundError();
@@ -33,6 +36,11 @@ router.delete(
 
     order.status = OrderStatus.Canceled;
     await order.save();
+
+    new OrderCanceledPublisher(natsWrapper.client).publish({
+      id: order.id,
+      ticket: { id: order.ticket.id },
+    });
 
     res.status(204).send(order);
   }
