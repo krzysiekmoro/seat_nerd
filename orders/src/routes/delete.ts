@@ -9,9 +9,8 @@ import {
 import { param } from "express-validator";
 import mongoose from "mongoose";
 import { Order } from "../models/order";
-import { OrderCanceledPublisher } from "../events/order-canceled-publisher";
+import { OrderCanceledPublisher } from "../events/publishers/order-canceled-publisher";
 import { natsWrapper } from "../nats-wrapper";
-import { Ticket } from "../models/ticket";
 
 const router = express.Router();
 
