@@ -46,9 +46,23 @@ it("sets the userId of the ticket", async () => {
 });
 
 it("acknowledges the message", async () => {
-  const { listener, ticket, data, message } = await setup();
+  const { listener, data, message } = await setup();
 
   await listener.onMessage(data, message);
 
   expect(message.ack).toHaveBeenCalled();
+});
+
+it("publishes ticket updated event", async () => {
+  const { listener, ticket, data, message } = await setup();
+
+  await listener.onMessage(data, message);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+
+  const ticketUpdatedData = JSON.parse(
+    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
+  );
+
+  expect(data.id).toEqual(ticketUpdatedData.orderId);
 });
