@@ -1,6 +1,7 @@
 import { OrderStatus } from "@seat-nerd/common";
 import mongoose from "mongoose";
 import { TicketDocument } from "./ticket";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export { OrderStatus };
 
@@ -51,6 +52,9 @@ const orderShema = new mongoose.Schema(
     },
   }
 );
+
+orderShema.set("versionKey", "version");
+orderShema.plugin(updateIfCurrentPlugin);
 
 orderShema.statics.build = (attributes: OrderAttributes) => {
   return new Order(attributes);

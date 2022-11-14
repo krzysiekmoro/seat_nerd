@@ -50,3 +50,15 @@ it("acknowledges the message", async () => {
   await listener.onMessage(data, message);
   expect(message.ack).toHaveBeenCalled();
 });
+
+it("does not call ack if the event has a version number out of order", async () => {
+  const { listener, ticket, data, message } = await setup();
+
+  data.version = 10;
+
+  try {
+    await listener.onMessage(data, message);
+  } catch (err) {}
+
+  expect(message.ack).not.toHaveBeenCalled();
+});
