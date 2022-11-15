@@ -1,4 +1,4 @@
-import { OrderCreatedEvent, OrderStatus, Subjects } from "@seat-nerd/common";
+import { OrderCreatedEvent, OrderStatus } from "@seat-nerd/common";
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../../models/ticket";
