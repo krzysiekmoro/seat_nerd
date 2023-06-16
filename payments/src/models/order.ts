@@ -11,14 +11,14 @@ interface OrderAttributes {
 }
 
 interface OrderModel extends mongoose.Model<OrderDocument> {
+  build(attributes: OrderAttributes): OrderDocument;
+}
+
+interface OrderDocument extends mongoose.Document {
   version: number;
   userId: string;
   price: number;
   status: OrderStatus;
-}
-
-interface OrderDocument extends mongoose.Document {
-  build(attributes: OrderAttributes): OrderDocument;
 }
 
 const orderSchema = new mongoose.Schema(
