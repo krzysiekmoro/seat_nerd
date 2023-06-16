@@ -1,11 +1,11 @@
-import { OrderCanceledEvent, OrderStatus } from "@seat-nerd/common";
+import { OrderCancelledEvent, OrderStatus } from "@seat-nerd/common";
 import mongoose from "mongoose";
 import { Ticket } from "../../../models/ticket";
 import { natsWrapper } from "../../../nats-wrapper";
-import { OrderCanceledListener } from "../order-canceled-listener";
+import { OrderCancelledListener } from "../order-cancelled-listener";
 
 const setup = async () => {
-  const listener = new OrderCanceledListener(natsWrapper.client);
+  const listener = new OrderCancelledListener(natsWrapper.client);
 
   const orderId = new mongoose.Types.ObjectId().toHexString();
   const ticket = Ticket.build({
@@ -16,7 +16,7 @@ const setup = async () => {
   ticket.set({ orderId });
   await ticket.save();
 
-  const data: OrderCanceledEvent["data"] = {
+  const data: OrderCancelledEvent["data"] = {
     id: orderId,
     version: 0,
     ticket: {

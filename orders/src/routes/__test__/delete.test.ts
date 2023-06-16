@@ -79,10 +79,10 @@ it("canceles the order", async () => {
     .expect(204);
 
   const updatedOrder = await Order.findById(order.id);
-  expect(updatedOrder?.status).toEqual(OrderStatus.Canceled);
+  expect(updatedOrder?.status).toEqual(OrderStatus.Cancelled);
 });
 
-it("publishes an order canceled event", async () => {
+it("publishes an order cancelled event", async () => {
   const ticket = await buildTicket();
 
   const user = signup();

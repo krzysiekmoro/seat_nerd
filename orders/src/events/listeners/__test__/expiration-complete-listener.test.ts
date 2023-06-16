@@ -41,7 +41,7 @@ it("updates the order status to cancelled", async () => {
   await listener.onMessage(data, message);
 
   const updatedOrder = await Order.findById(order.id);
-  expect(updatedOrder!.status).toEqual(OrderStatus.Canceled);
+  expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });
 
 it("emit an OrderCancelled event", async () => {

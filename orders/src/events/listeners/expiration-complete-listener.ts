@@ -7,7 +7,7 @@ import {
 import { queueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
 import { Order } from "../../models/order";
-import { OrderCanceledPublisher } from "../publishers/order-canceled-publisher";
+import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 
 export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
   readonly subject = Subjects.ExpirationComplete;
@@ -24,11 +24,11 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
     }
 
     order.set({
-      status: OrderStatus.Canceled,
+      status: OrderStatus.Cancelled,
     });
     await order.save();
 
-    await new OrderCanceledPublisher(this.client).publish({
+    await new OrderCancelledPublisher(this.client).publish({
       id: order.id,
       version: order.version,
       ticket: {

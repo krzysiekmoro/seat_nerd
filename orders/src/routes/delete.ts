@@ -9,7 +9,7 @@ import {
 import { param } from "express-validator";
 import mongoose from "mongoose";
 import { Order } from "../models/order";
-import { OrderCanceledPublisher } from "../events/publishers/order-canceled-publisher";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
@@ -33,10 +33,10 @@ router.delete(
       throw new NotAuthorizedError();
     }
 
-    order.status = OrderStatus.Canceled;
+    order.status = OrderStatus.Cancelled;
     await order.save();
 
-    new OrderCanceledPublisher(natsWrapper.client).publish({
+    new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
       ticket: { id: order.ticket.id },
       version: order.version,
