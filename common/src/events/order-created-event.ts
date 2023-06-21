@@ -1,5 +1,5 @@
-import { Subjects } from "./subjects";
-import { OrderStatus } from "./order-status";
+import {Subjects} from './subjects';
+import {OrderStatus} from './order-status';
 
 export interface OrderCreatedEvent {
   subject: Subjects.OrderCreated;
