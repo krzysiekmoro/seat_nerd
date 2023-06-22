@@ -1,9 +1,9 @@
-import { OrderStatus } from "@seat-nerd/common";
-import mongoose from "mongoose";
-import { TicketDocument } from "./ticket";
-import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+import {OrderStatus} from '@seat-nerd/common';
+import mongoose from 'mongoose';
+import {TicketDocument} from './ticket';
+import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 
-export { OrderStatus };
+export {OrderStatus};
 
 interface OrderAttributes {
   userId: string;
@@ -40,7 +40,7 @@ const orderShema = new mongoose.Schema(
     },
     ticket: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Ticket",
+      ref: 'Ticket',
     },
   },
   {
@@ -50,16 +50,16 @@ const orderShema = new mongoose.Schema(
         delete ret._id;
       },
     },
-  }
+  },
 );
 
-orderShema.set("versionKey", "version");
+orderShema.set('versionKey', 'version');
 orderShema.plugin(updateIfCurrentPlugin);
 
 orderShema.statics.build = (attributes: OrderAttributes) => {
   return new Order(attributes);
 };
 
-const Order = mongoose.model<OrderDocument, OrderModel>("Order", orderShema);
+const Order = mongoose.model<OrderDocument, OrderModel>('Order', orderShema);
 
-export { Order };
+export {Order};

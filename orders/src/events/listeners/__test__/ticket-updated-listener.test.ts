@@ -1,26 +1,26 @@
-import { TicketUpdatedEvent } from "@seat-nerd/common";
-import mongoose from "mongoose";
-import { Message } from "node-nats-streaming";
-import { Ticket } from "../../../models/ticket";
-import { natsWrapper } from "../../../nats-wrapper";
-import { TicketUpdatedListener } from "../ticket-updated-listener";
+import {TicketUpdatedEvent} from '@seat-nerd/common';
+import mongoose from 'mongoose';
+import {Message} from 'node-nats-streaming';
+import {Ticket} from '../../../models/ticket';
+import {natsWrapper} from '../../../nats-wrapper';
+import {TicketUpdatedListener} from '../ticket-updated-listener';
 
 const setup = async () => {
   const listener = new TicketUpdatedListener(natsWrapper.client);
   const ticketId = new mongoose.Types.ObjectId().toHexString();
 
   const ticket = Ticket.build({
-    title: "Concert",
+    title: 'Concert',
     price: 30,
     id: ticketId,
   });
   await ticket.save();
 
-  const data: TicketUpdatedEvent["data"] = {
+  const data: TicketUpdatedEvent['data'] = {
     id: ticket.id,
-    title: "Concert",
+    title: 'Concert',
     price: 500,
-    userId: "hfkhkhfkf",
+    userId: 'hfkhkhfkf',
     version: ticket.version + 1,
   };
 
@@ -29,11 +29,11 @@ const setup = async () => {
     ack: jest.fn(),
   };
 
-  return { listener, ticket, data, message };
+  return {listener, ticket, data, message};
 };
 
-it("finds, updates and saves the ticket", async () => {
-  const { listener, ticket, data, message } = await setup();
+it('finds, updates and saves the ticket', async () => {
+  const {listener, ticket, data, message} = await setup();
 
   await listener.onMessage(data, message);
 
@@ -44,21 +44,23 @@ it("finds, updates and saves the ticket", async () => {
   expect(updatedTicket!.version).toEqual(data.version);
 });
 
-it("acknowledges the message", async () => {
-  const { listener, data, message } = await setup();
+it('acknowledges the message', async () => {
+  const {listener, data, message} = await setup();
 
   await listener.onMessage(data, message);
   expect(message.ack).toHaveBeenCalled();
 });
 
-it("does not call ack if the event has a version number out of order", async () => {
-  const { listener, ticket, data, message } = await setup();
+it('doesnt call ack if the event has version number out of order', async () => {
+  const {listener, data, message} = await setup();
 
   data.version = 10;
 
   try {
     await listener.onMessage(data, message);
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 
   expect(message.ack).not.toHaveBeenCalled();
 });

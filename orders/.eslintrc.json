@@ -53,7 +53,7 @@
         "code": 80,
         "tabWidth": 2,
         "ignoreUrls": true,
-        "ignorePattern": "import"
+        "ignorePattern": "(export)|(import)"
       }
     ],
     "new-cap": "error",
@@ -99,6 +99,7 @@
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "rest-spread-spacing": "error",
-    "yield-star-spacing": ["error", "after"]
+    "yield-star-spacing": ["error", "after"],
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
