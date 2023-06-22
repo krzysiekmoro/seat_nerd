@@ -7,8 +7,6 @@ deploy:
 build:
   local:
     push: false
-  # googleCloudBuild:
-  #   projectId: seat-nerd
   artifacts:
     - image: krzysztofmorawski/auth
       context: auth
