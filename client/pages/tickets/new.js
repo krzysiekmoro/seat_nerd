@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Router from 'next/router';
 import useRequest from '../../hooks/useRequest';
 
 const NewTicket = () => {
@@ -13,9 +14,7 @@ const NewTicket = () => {
         price,
       },
     },
-    (data) => {
-      console.log(data);
-    },
+    () => Router.push('/'),
   );
 
   const onSubmit = (e) => {
